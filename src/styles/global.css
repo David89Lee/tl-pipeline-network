@@ -1,0 +1,223 @@
+:root {
+  --bg-0: #03070f;
+  --bg-1: #061325;
+  --cyan: #3fe1ff;
+  --green: #4dffc3;
+  --amber: #ffb648;
+  --text: #dff3ff;
+  --muted: #83a9c4;
+  --panel-bg: linear-gradient(180deg, rgba(8, 26, 44, 0.92) 0%, rgba(5, 16, 30, 0.86) 100%);
+  --panel-border: 1px solid rgba(63, 225, 255, 0.22);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg-0);
+  color: var(--text);
+  font-family: 'HarmonyOS Sans SC', 'Microsoft YaHei', 'PingFang SC', sans-serif;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-shell {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ---------- 顶部标题栏 ---------- */
+.app-header {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 76px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  background: linear-gradient(90deg, rgba(4, 16, 30, 0.96), rgba(7, 34, 56, 0.92) 45%, rgba(4, 16, 30, 0.96));
+  border-bottom: 1px solid rgba(63, 225, 255, 0.28);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+}
+
+.app-header::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(63, 225, 255, 0.9), transparent);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand-mark {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: #07222f;
+  background: linear-gradient(145deg, #6ff3ff, #1fa8d6);
+  clip-path: polygon(50% 0, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
+  box-shadow: 0 0 24px rgba(63, 225, 255, 0.55);
+}
+
+.brand-text h1 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 5px;
+  background: linear-gradient(180deg, #ffffff 20%, #8fe8ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.brand-text p {
+  margin: 4px 0 0;
+  font-size: 9.5px;
+  letter-spacing: 2.6px;
+  color: rgba(120, 190, 220, 0.72);
+}
+
+.header-center {
+  display: flex;
+  gap: 12px;
+}
+
+.header-chip {
+  padding: 6px 16px;
+  font-size: 12.5px;
+  letter-spacing: 2px;
+  color: #9fe9ff;
+  border: 1px solid rgba(63, 225, 255, 0.3);
+  border-radius: 2px;
+  background: linear-gradient(180deg, rgba(63, 225, 255, 0.16), rgba(63, 225, 255, 0.04));
+}
+
+.header-chip--ghost {
+  color: #8fb7cc;
+  border-color: rgba(120, 170, 200, 0.25);
+  background: transparent;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.sys-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: #9dffd9;
+}
+
+.sys-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #3dffb2;
+  box-shadow: 0 0 10px #3dffb2;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+.header-clock {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 12px;
+  color: #9dc4da;
+  letter-spacing: 1px;
+}
+
+.header-clock em {
+  font-style: normal;
+  color: #6d93ab;
+}
+
+.header-clock strong {
+  font-family: 'Bahnschrift', 'DIN Alternate', monospace;
+  font-size: 20px;
+  letter-spacing: 2px;
+  color: #d9f7ff;
+}
+
+/* ---------- 地图区域 ---------- */
+.map-stage {
+  position: absolute;
+  inset: 76px 0 0;
+  overflow: hidden;
+}
+
+.map-stage .cesium-viewer,
+.map-stage .cesium-viewer-cesiumWidgetContainer,
+.map-stage .cesium-widget,
+.map-stage canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.map-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 45%, transparent 45%, rgba(2, 8, 16, 0.6) 100%);
+  box-shadow: inset 0 0 140px rgba(0, 8, 18, 0.85);
+}
+
+.map-hint {
+  position: absolute;
+  right: 24px;
+  bottom: 22px;
+  z-index: 20;
+  padding: 8px 16px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #75a2b8;
+  border: 1px dashed rgba(63, 225, 255, 0.22);
+  border-radius: 3px;
+  background: rgba(4, 14, 26, 0.55);
+  pointer-events: none;
+}
+
+.cesium-widget-credits,
+.cesium-viewer-bottom {
+  display: none !important;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(0.86);
+  }
+}
