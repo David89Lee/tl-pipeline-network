@@ -116,3 +116,54 @@
     transform: rotate(360deg);
   }
 }
+
+/* ---------- 龙口 LNG 冷网详情页：同风格，色相偏冰蓝紫 ---------- */
+.detail-page--lng {
+  background:
+    radial-gradient(80% 60% at 50% 22%, rgba(40, 52, 118, 0.55), transparent 70%),
+    linear-gradient(160deg, #060a1c 0%, #04060f 60%, #070b1c 100%);
+}
+
+.detail-page--lng::before {
+  background: radial-gradient(60% 50% at 50% 42%, rgba(124, 157, 255, 0.09), transparent 70%);
+}
+
+.detail-page--lng .detail-grid {
+  background-image:
+    linear-gradient(rgba(124, 157, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 157, 255, 0.08) 1px, transparent 1px);
+}
+
+.detail-page--lng .detail-glow {
+  border-color: rgba(124, 157, 255, 0.18);
+  box-shadow: inset 0 0 90px rgba(124, 157, 255, 0.12), 0 0 70px rgba(124, 157, 255, 0.08);
+}
+
+.detail-page--lng .detail-glow::after {
+  border-color: rgba(180, 140, 255, 0.2);
+}
+
+.detail-page--lng .detail-eyebrow {
+  color: #8fa8e6;
+}
+
+.detail-page--lng .detail-content h1 {
+  background: linear-gradient(180deg, #ffffff 10%, #b9ccff 70%, #5f7ed0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: drop-shadow(0 0 26px rgba(124, 157, 255, 0.4));
+}
+
+.detail-page--lng .detail-content p {
+  color: #93a5c9;
+}
+
+.detail-page--lng .ghost-btn {
+  color: #c2d4ff;
+  border-color: rgba(124, 157, 255, 0.45);
+}
+
+.detail-page--lng .ghost-btn:hover {
+  background: rgba(124, 157, 255, 0.14);
+  box-shadow: 0 0 22px rgba(124, 157, 255, 0.28);
+}

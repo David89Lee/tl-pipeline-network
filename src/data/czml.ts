@@ -1,6 +1,8 @@
 import { distanceMeters, pipelines } from './network'
+import { lngPipelines } from './lngNetwork'
+import type { Pipeline } from './network'
 
-/** CZML 时间轴，用于驱动蒸汽在管网中的流动动画 */
+/** CZML 时间轴，用于驱动介质在管网中的流动动画 */
 export const CLOCK_START = '2026-11-02T00:00:00Z'
 export const CLOCK_END = '2026-11-02T00:30:00Z'
 
@@ -12,6 +14,42 @@ export const PIPE_ALTITUDE = 260
 /** 不同管线错开高度，形成有层次的立体管网 */
 export function pipeAltitude(index: number): number {
   return PIPE_ALTITUDE + (index % 3) * 90
+}
+
+/** 一套管网的流动配色与标识配置 */
+interface FlowTheme {
+  /** CZML 实体 id 前缀，用于区分热网 / 冷网 */
+  idPrefix: string
+  /** 实体名称后缀 */
+  nameSuffix: string
+  /** 主干线流动点颜色 rgba(0-1) */
+  mainDot: [number, number, number, number]
+  /** 支线流动点颜色 rgba(0-1) */
+  branchDot: [number, number, number, number]
+  /** 主干线拖尾颜色 */
+  mainTrail: [number, number, number, number]
+  /** 支线拖尾颜色 */
+  branchTrail: [number, number, number, number]
+}
+
+/** 连云港蒸汽热网：青蓝 / 青绿 */
+const STEAM_THEME: FlowTheme = {
+  idPrefix: 'steam-flow',
+  nameSuffix: '蒸汽流',
+  mainDot: [0.55, 0.92, 1, 1],
+  branchDot: [0.62, 1, 0.86, 1],
+  mainTrail: [0.25, 0.78, 1, 0.85],
+  branchTrail: [0.3, 1, 0.7, 0.8],
+}
+
+/** 龙口 LNG 冷网：冰蓝 / 淡紫，与热网青色系区分 */
+const LNG_THEME: FlowTheme = {
+  idPrefix: 'lng-flow',
+  nameSuffix: '冷能流',
+  mainDot: [0.6, 0.74, 1, 1],
+  branchDot: [0.82, 0.68, 1, 1],
+  mainTrail: [0.42, 0.56, 1, 0.85],
+  branchTrail: [0.7, 0.5, 1, 0.8],
 }
 
 interface PathGeometry {
@@ -44,21 +82,20 @@ function pointAtDistance(geometry: PathGeometry, distance: number): [number, num
   return points[points.length - 1]
 }
 
-/**
- * 生成 CZML 数据包：每条管线上若干个发光的蒸汽流点沿管线匀速移动，
- * 并带有 path 拖尾，形成蒸汽在管网中流动的视觉效果。
- */
-export function buildSteamFlowCzml(): Record<string, unknown> {
-  const entities: Record<string, unknown>[] = []
-
-  pipelines.forEach((pipe, index) => {
+/** 为一套管网生成流动点实体，追加到 entities 数组 */
+function appendFlowEntities(
+  entities: Record<string, unknown>[],
+  pipes: Pipeline[],
+  theme: FlowTheme,
+): void {
+  pipes.forEach((pipe, index) => {
     const geometry = buildGeometry(pipe.points)
     // 不同管线给予不同流速，主干线更快
     const speed = pipe.level === 'main' ? 46 + (index % 4) * 5 : 34 + (index % 3) * 4
     const travelSeconds = Math.max(geometry.total / speed, 30)
     const dotCount = pipe.level === 'main' ? 3 : 2
-    const rgba = pipe.level === 'main' ? [0.55, 0.92, 1, 1] : [0.62, 1, 0.86, 1]
-    const trailRgba = pipe.level === 'main' ? [0.25, 0.78, 1, 0.85] : [0.3, 1, 0.7, 0.8]
+    const rgba = pipe.level === 'main' ? theme.mainDot : theme.branchDot
+    const trailRgba = pipe.level === 'main' ? theme.mainTrail : theme.branchTrail
     const altitude = pipeAltitude(index)
 
     for (let dot = 0; dot < dotCount; dot += 1) {
@@ -73,8 +110,8 @@ export function buildSteamFlowCzml(): Record<string, unknown> {
       }
 
       entities.push({
-        id: `steam-flow:${pipe.id}:${dot}`,
-        name: `${pipe.name}蒸汽流`,
+        id: `${theme.idPrefix}:${pipe.id}:${dot}`,
+        name: `${pipe.name}${theme.nameSuffix}`,
         availability: `${CLOCK_START}/${CLOCK_END}`,
         position: {
           epoch: CLOCK_START,
@@ -104,17 +141,27 @@ export function buildSteamFlowCzml(): Record<string, unknown> {
       })
     }
   })
+}
+
+/**
+ * 生成 CZML 数据包：热网蒸汽流点与冷网冷能流点共用同一时间轴，
+ * 沿各自管线匀速移动并带有 path 拖尾，形成双网介质流动的视觉效果。
+ */
+export function buildFlowCzml(): Record<string, unknown> {
+  const entities: Record<string, unknown>[] = []
+  appendFlowEntities(entities, pipelines, STEAM_THEME)
+  appendFlowEntities(entities, lngPipelines, LNG_THEME)
 
   return {
     id: 'document',
-    name: 'lyg-steam-flow',
+    name: 'pipeline-flow',
     version: '1.0',
     clock: {
       interval: `${CLOCK_START}/${CLOCK_END}`,
       currentTime: CLOCK_START,
       multiplier: 4,
-      range: 'CLAMPED',
-      loop: true,
+      // LOOP_STOP：到达终点后回到起点循环播放（CZML 不支持 loop 属性）
+      range: 'LOOP_STOP',
     },
     entities,
   }

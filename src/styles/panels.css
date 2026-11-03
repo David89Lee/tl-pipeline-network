@@ -128,6 +128,14 @@
   margin: 14px 0 8px;
 }
 
+.panel-sub--first {
+  margin-top: 12px;
+}
+
+.panel-sub--lng h3 {
+  color: #b9c8f2;
+}
+
 .panel-sub h3 {
   margin: 0;
   font-size: 12.5px;
@@ -147,8 +155,20 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  max-height: 218px;
   padding-right: 2px;
   overflow-y: auto;
+}
+
+/* ---------- 冷网统计卡：冰蓝紫色调，与热网青色区分 ---------- */
+.stat-cell--lng {
+  background: linear-gradient(180deg, rgba(124, 157, 255, 0.1), rgba(124, 157, 255, 0.02));
+  border-color: rgba(124, 157, 255, 0.16);
+}
+
+.stat-cell--lng .stat-value {
+  color: #b9ccff;
+  text-shadow: 0 0 12px rgba(124, 157, 255, 0.4);
 }
 
 .compare-row {
