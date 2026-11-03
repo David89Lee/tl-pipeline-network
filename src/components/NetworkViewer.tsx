@@ -81,7 +81,7 @@ export default function NetworkViewer({ onSelectPipeline }: NetworkViewerProps) 
           color,
           position: Cartesian3.fromDegrees(node.lon, node.lat, height / 2),
           labelPosition: Cartesian3.fromDegrees(node.lon, node.lat, height + 300),
-          pad: isSupplier ? 3600 : 2400,
+          pad: isSupplier ? 2400 : 1600,
         }
       }),
     [],
@@ -225,8 +225,8 @@ export default function NetworkViewer({ onSelectPipeline }: NetworkViewerProps) 
         <Entity key={node.id} id={`node:${node.id}`} name={node.name} position={position}>
           <CylinderGraphics
             length={height}
-            topRadius={isSupplier ? 1400 : 1000}
-            bottomRadius={isSupplier ? 2300 : 1700}
+            topRadius={isSupplier ? 1200 : 800}
+            bottomRadius={isSupplier ? 2000 : 1400}
             numberOfVerticalLines={16}
             heightReference={HeightReference.NONE}
             material={color.withAlpha(0.62)}
