@@ -32,24 +32,24 @@ interface FlowTheme {
   branchTrail: [number, number, number, number]
 }
 
-/** 连云港蒸汽热网：青蓝 / 青绿 */
+/** 连云港蒸汽热网：橘红系 */
 const STEAM_THEME: FlowTheme = {
   idPrefix: 'steam-flow',
   nameSuffix: '蒸汽流',
-  mainDot: [0.55, 0.92, 1, 1],
-  branchDot: [0.62, 1, 0.86, 1],
-  mainTrail: [0.25, 0.78, 1, 0.85],
-  branchTrail: [0.3, 1, 0.7, 0.8],
+  mainDot: [1, 0.42, 0.21, 1],
+  branchDot: [1, 0.66, 0.4, 1],
+  mainTrail: [1, 0.35, 0.15, 0.85],
+  branchTrail: [1, 0.55, 0.3, 0.8],
 }
 
-/** 龙口 LNG 冷网：冰蓝 / 淡紫，与热网青色系区分 */
+/** 龙口 LNG 冷网：冰蓝系 */
 const LNG_THEME: FlowTheme = {
   idPrefix: 'lng-flow',
   nameSuffix: '冷能流',
-  mainDot: [0.6, 0.74, 1, 1],
-  branchDot: [0.82, 0.68, 1, 1],
-  mainTrail: [0.42, 0.56, 1, 0.85],
-  branchTrail: [0.7, 0.5, 1, 0.8],
+  mainDot: [0.49, 0.77, 1, 1],
+  branchDot: [0.69, 0.86, 1, 1],
+  mainTrail: [0.35, 0.65, 1, 0.85],
+  branchTrail: [0.6, 0.82, 1, 0.8],
 }
 
 interface PathGeometry {

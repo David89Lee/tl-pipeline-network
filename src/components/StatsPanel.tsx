@@ -18,6 +18,15 @@ import {
 } from '../data/lngNetwork'
 import { useLiveMetrics, type LiveCompareItem } from '../hooks/useLiveMetrics'
 
+export type StatsNetworkKind = 'steam' | 'lng'
+
+interface StatsPanelProps {
+  /** 哪张管网的数据 */
+  network: StatsNetworkKind
+  /** 点击进入详情页 */
+  onOpenDetail: () => void
+}
+
 const STATUS_TEXT = {
   normal: '达标',
   warn: '关注',
@@ -77,43 +86,42 @@ function CompareRow({ item }: { item: LiveCompareItem }) {
   )
 }
 
-export default function StatsPanel() {
-  const metrics = useLiveMetrics(compareItems)
-  const lngMetrics = useLiveMetrics(lngCompareItems)
+export default function StatsPanel({ network, onOpenDetail }: StatsPanelProps) {
+  const isSteam = network === 'steam'
 
-  const stats = [
-    { label: '热网总长度', value: totalPipelineKm.toFixed(1), unit: 'km' },
-    { label: '蒸汽管线', value: pipelines.length.toString(), unit: '条' },
-    { label: '上游热源', value: suppliers.length.toString(), unit: '座' },
-    { label: '下游用户', value: users.length.toString(), unit: '家' },
-    { label: '今日输汽量', value: overview.todayDelivered.toLocaleString('zh-CN'), unit: 't' },
-    {
-      label: '热网在线率',
-      value: `${Math.round((overview.onlineStations / overview.stationTotal) * 100)}`,
-      unit: '%',
-    },
-  ]
+  const metrics = useLiveMetrics(isSteam ? compareItems : lngCompareItems)
 
-  const lngStats = [
-    { label: '冷网总长度', value: lngTotalPipelineKm.toFixed(1), unit: 'km' },
-    { label: '冷网管线', value: lngPipelines.length.toString(), unit: '条' },
-    { label: '上游冷源', value: lngSuppliers.length.toString(), unit: '座' },
-    { label: '下游用户', value: lngUsers.length.toString(), unit: '家' },
-    { label: '今日供冷量', value: lngOverview.todayDelivered.toLocaleString('zh-CN'), unit: 't' },
-    { label: '供冷温度', value: lngOverview.supplyTemp.toString(), unit: '℃' },
-  ]
+  const stats = isSteam
+    ? [
+        { label: '热网总长度', value: totalPipelineKm.toFixed(1), unit: 'km' },
+        { label: '蒸汽管线', value: pipelines.length.toString(), unit: '条' },
+        { label: '上游热源', value: suppliers.length.toString(), unit: '座' },
+        { label: '下游用户', value: users.length.toString(), unit: '家' },
+        { label: '今日输汽量', value: overview.todayDelivered.toLocaleString('zh-CN'), unit: 't' },
+        {
+          label: '热网在线率',
+          value: `${Math.round((overview.onlineStations / overview.stationTotal) * 100)}`,
+          unit: '%',
+        },
+      ]
+    : [
+        { label: '冷网总长度', value: lngTotalPipelineKm.toFixed(1), unit: 'km' },
+        { label: '冷网管线', value: lngPipelines.length.toString(), unit: '条' },
+        { label: '上游冷源', value: lngSuppliers.length.toString(), unit: '座' },
+        { label: '下游用户', value: lngUsers.length.toString(), unit: '家' },
+        { label: '今日供冷量', value: lngOverview.todayDelivered.toLocaleString('zh-CN'), unit: 't' },
+        { label: '供冷温度', value: lngOverview.supplyTemp.toString(), unit: '℃' },
+      ]
+
+  const title = isSteam ? '连云港蒸汽热网运行总览' : '龙口 LNG 冷网运行总览'
+  const cta = isSteam ? '进入连云港蒸汽管网详情' : '进入龙口 LNG 冷网详情'
 
   return (
-    <aside className="panel panel--left">
+    <aside className={`panel panel--${isSteam ? 'left panel--steam' : 'right panel--lng'}`}>
       <div className="panel-head">
         <span className="panel-accent" />
-        <h2>管网运行总览</h2>
+        <h2>{title}</h2>
         <span className="panel-tag">LIVE</span>
-      </div>
-
-      <div className="panel-sub panel-sub--first">
-        <h3>连云港蒸汽热网</h3>
-        <span className="panel-tip">采样周期 4s</span>
       </div>
 
       <div className="stat-grid">
@@ -128,34 +136,20 @@ export default function StatsPanel() {
         ))}
       </div>
 
+      <div className="panel-sub">
+        <h3>设计 / 运行 实时比对</h3>
+        <span className="panel-tip">采样周期 4s</span>
+      </div>
+
       <div className="compare-list">
         {metrics.map((item) => (
           <CompareRow item={item} key={item.key} />
         ))}
       </div>
 
-      <div className="panel-sub panel-sub--lng">
-        <h3>龙口 LNG 冷网</h3>
-        <span className="panel-tip">采样周期 4s</span>
-      </div>
-
-      <div className="stat-grid stat-grid--lng">
-        {lngStats.map((item) => (
-          <div className="stat-cell stat-cell--lng" key={item.label}>
-            <label>{item.label}</label>
-            <div className="stat-value">
-              {item.value}
-              <small>{item.unit}</small>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="compare-list">
-        {lngMetrics.map((item) => (
-          <CompareRow item={item} key={item.key} />
-        ))}
-      </div>
+      <button type="button" className="detail-cta" onClick={onOpenDetail}>
+        {cta}
+      </button>
     </aside>
   )
 }

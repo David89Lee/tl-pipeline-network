@@ -1,7 +1,5 @@
 import { useNavigate } from 'react-router-dom'
 import AppHeader from '../components/AppHeader'
-import Legend from '../components/Legend'
-import NetworkPanel from '../components/NetworkPanel'
 import NetworkViewer, { type NetworkKind } from '../components/NetworkViewer'
 import StatsPanel from '../components/StatsPanel'
 
@@ -19,12 +17,8 @@ export default function HomePage() {
       <main className="map-stage">
         <NetworkViewer onSelectPipeline={openDetail} />
         <div className="map-vignette" />
-        <StatsPanel />
-        <NetworkPanel
-          onOpenPipeline={(id) => openDetail(id, 'steam')}
-          onOpenDetail={() => openDetail()}
-        />
-        <Legend />
+        <StatsPanel network="steam" onOpenDetail={() => openDetail(undefined, 'steam')} />
+        <StatsPanel network="lng" onOpenDetail={() => openDetail(undefined, 'lng')} />
         <div className="map-hint">点击发光管线，进入对应热网 / 冷网详情</div>
       </main>
     </div>

@@ -44,17 +44,17 @@ const LNG_PIPELINE_ID_PREFIX = 'lng-pipeline:'
 const AMAP_TILE_URL =
   'https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}'
 
-// 连云港蒸汽热网配色：青色系
-const SUPPLIER_COLOR = Color.fromCssColorString('#ffb648')
-const USER_COLOR = Color.fromCssColorString('#36e2ff')
-const MAIN_PIPE_COLOR = Color.fromCssColorString('#4fe4ff')
-const BRANCH_PIPE_COLOR = Color.fromCssColorString('#59ffc9')
+// 连云港蒸汽热网配色：橘红系
+const SUPPLIER_COLOR = Color.fromCssColorString('#ffa866')
+const USER_COLOR = Color.fromCssColorString('#ff6b35')
+const MAIN_PIPE_COLOR = Color.fromCssColorString('#ff6b35')
+const BRANCH_PIPE_COLOR = Color.fromCssColorString('#ffb347')
 
-// 龙口 LNG 冷网配色：冰蓝 / 淡紫，与热网区分
+// 龙口 LNG 冷网配色：冰蓝系，与热网橘红明确区分
 const LNG_SUPPLIER_COLOR = Color.fromCssColorString('#a8d8ff')
-const LNG_USER_COLOR = Color.fromCssColorString('#c4a5ff')
-const LNG_MAIN_PIPE_COLOR = Color.fromCssColorString('#7c9dff')
-const LNG_BRANCH_PIPE_COLOR = Color.fromCssColorString('#b48cff')
+const LNG_USER_COLOR = Color.fromCssColorString('#7ec5ff')
+const LNG_MAIN_PIPE_COLOR = Color.fromCssColorString('#7ec5ff')
+const LNG_BRANCH_PIPE_COLOR = Color.fromCssColorString('#b0dcff')
 
 export default function NetworkViewer({ onSelectPipeline }: NetworkViewerProps) {
   const viewerRef = useRef<CesiumComponentRef<CesiumViewer> | null>(null)
