@@ -28,10 +28,10 @@ export default function AppHeader() {
         </span>
       </Link>
 
-      <div className="header-center">
+      {/* <div className="header-center">
         <span className="header-chip">连云港蒸汽热网</span>
         <span className="header-chip header-chip--ghost">三维 GIS 实时态势</span>
-      </div>
+      </div> */}
 
       <div className="header-right">
         <div className="sys-status">

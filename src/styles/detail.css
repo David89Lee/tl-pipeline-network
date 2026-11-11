@@ -25,9 +25,43 @@
   padding-top: 76px;
 }
 
+.lyg-detail-bg {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  /* padding-top: 76px; */
+  /* display: flex;
+  flex-direction: column; */
+  /* place-items: center; */
+}
+
+/** iframe 铺满容器内容区：容器有 padding-top:76px 留给 AppHeader，
+ *  absolute inset:0 相对 padding box 定位，自动从 76px 下沿开始 */
+.detail-bg-iframe {
+  position: absolute;
+  padding-top: 76px;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  z-index: 1;
+  display: block;
+}
+
+/** 叠加半透明深色蒙版，进一步压暗背景 */
+.detail-bg-mask {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(160deg, rgba(3, 8, 15, 0.72) 0%, rgba(3, 8, 15, 0.58) 40%, rgba(3, 8, 15, 0.72) 100%);
+  pointer-events: none;
+}
+
 .detail-grid {
   position: absolute;
   inset: 0;
+  z-index: 2;
   background-image:
     linear-gradient(rgba(63, 225, 255, 0.08) 1px, transparent 1px),
     linear-gradient(90deg, rgba(63, 225, 255, 0.08) 1px, transparent 1px);
@@ -39,6 +73,7 @@
 
 .detail-glow {
   position: absolute;
+  z-index: 3;
   width: 620px;
   height: 620px;
   border: 1px solid rgba(63, 225, 255, 0.16);
@@ -57,7 +92,7 @@
 
 .detail-content {
   position: relative;
-  z-index: 2;
+  z-index: 4;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -91,6 +126,9 @@
 }
 
 .ghost-btn {
+  position: absolute;
+  top: 14vh;
+  right: 24px;
   margin-top: 16px;
   padding: 10px 26px;
   font-size: 12.5px;
@@ -101,6 +139,7 @@
   border: 1px solid rgba(63, 225, 255, 0.4);
   border-radius: 2px;
   transition: background 0.2s ease, box-shadow 0.2s ease;
+  z-index: 2;
 }
 
 .ghost-btn:hover {
