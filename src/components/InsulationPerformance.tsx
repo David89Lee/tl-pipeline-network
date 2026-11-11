@@ -380,7 +380,7 @@ export default function InsulationPerformance() {
       {/* 卡片撑满父容器：用内联样式覆盖 .panel 的绝对定位与固定宽度，
           这样 ResizeObserver 量到的就是分配好的实际尺寸 */}
       <aside
-        className="panel panel--left panel--steam"
+        className="panel panel--right panel--steam"
         style={{
           position: 'relative',
           left: 0,

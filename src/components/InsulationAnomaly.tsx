@@ -1221,7 +1221,7 @@ export default function InsulationAnomaly() {
     <>
       <style>{animCSS}</style>
       <aside
-          className="panel panel--right panel--steam"
+          className="panel panel--left panel--steam"
           style={{
             position: 'relative',
             left: 0,

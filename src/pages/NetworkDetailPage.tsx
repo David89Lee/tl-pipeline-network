@@ -26,7 +26,8 @@ export default function NetworkDetailPage() {
         color: '#fff',
         fontSize: '12px',
         lineHeight: '2',
-        boxShadow: '0 0 8px rgba(0,198,255,0.4)'
+        boxShadow: '0 0 8px rgba(0,198,255,0.4)',
+        zIndex: 2
       }}>
         <div>📍 地址: {address}</div>
         <div>🌡 环境温度: {temperature}</div>
@@ -52,6 +53,7 @@ export default function NetworkDetailPage() {
         <div style={{
           position: 'absolute',
           top: '280px',
+          left: '8px',
           height: '200px',
         }}>
           <PipeHeatLossAnalysis />
@@ -59,17 +61,17 @@ export default function NetworkDetailPage() {
         <div style={{
           position: 'absolute',
           top: '600px',
-          left: '24px',
-          width: '600px',
-          height: '300px',
+          left: '8px',
+          width: '800px',
+          height: '320px',
           zIndex: 2,
         }}>
-          <InsulationPerformance />
+          <InsulationAnomaly />
         </div>
         <div style={{
           position: 'absolute',
           top: '240px',
-          right: '24px',
+          right: '8px',
           width: '352px',
           height: '300px',
           zIndex: 2,
@@ -78,13 +80,13 @@ export default function NetworkDetailPage() {
         </div>
         <div style={{
           position: 'absolute',
-          right: '24px',
+          right: '8px',
           bottom: '12px',
-          width: '820px',
-          height: '320px',
+          width: '600px',
+          height: '300px',
           zIndex: 2,
         }}>
-          <InsulationAnomaly />
+          <InsulationPerformance />
         </div>
         {/* <div className="detail-bg-mask" />
         <div className="detail-grid" />
