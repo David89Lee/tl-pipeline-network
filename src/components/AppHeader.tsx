@@ -5,9 +5,14 @@ function pad(value: number) {
   return value.toString().padStart(2, '0')
 }
 
+type AppHeaderProps = {
+  network?: 'steam' | 'lng'
+}
+
 /** 全局顶部标题栏，首页与详情页共用，保证风格一致 */
-export default function AppHeader() {
+export default function AppHeader({ network = 'steam' }: AppHeaderProps) {
   const [now, setNow] = useState(() => new Date())
+  const isLng = network === 'lng'
 
   useEffect(() => {
     const timer = window.setInterval(() => setNow(new Date()), 1000)
@@ -19,19 +24,19 @@ export default function AppHeader() {
   const timeText = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`
 
   return (
-    <header className="app-header">
+    <header className={`app-header${isLng ? ' app-header--lng' : ''}`}>
       <Link to="/" className="brand">
         <span className="brand-mark">探</span>
         <span className="brand-text">
-          <h1>探灵智慧管网平台</h1>
-          <p>SMART STEAM PIPE NETWORK PLATFORM</p>
+          <h1>{isLng ? '中石化龙口LNG管道保冷系统' : '探灵智慧管网平台'}</h1>
+          <p>{isLng ? 'LNG PIPE INSULATION MONITORING PLATFORM' : 'SMART STEAM PIPE NETWORK PLATFORM'}</p>
         </span>
       </Link>
 
-      {/* <div className="header-center">
-        <span className="header-chip">连云港蒸汽热网</span>
-        <span className="header-chip header-chip--ghost">三维 GIS 实时态势</span>
-      </div> */}
+      <div className="header-center">
+        <span className="header-chip">{isLng ? '龙口 LNG 冷网' : '连云港蒸汽热网'}</span>
+        <span className="header-chip header-chip--ghost">{isLng ? '光纤保冷实时监测' : '三维 GIS 实时态势'}</span>
+      </div>
 
       <div className="header-right">
         <div className="sys-status">
